@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler')
 
-const Note = require('../models/noteModel')
-const Ticket = require('../models/ticketModel')
+const Note = require('../models/note_model')
+const Ticket = require('../models/ticket_model')
 
 // NOTE: no need to get the user, we already have them on req object from
 // protect middleware. The protect middleware already checks for valid user.

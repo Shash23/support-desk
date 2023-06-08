@@ -1,27 +1,24 @@
 const mongoose = require('mongoose')
 
-const noteSchema = mongoose.Schema(
+const userSchema = mongoose.Schema(
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'User',
-    },
-    ticket: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'Ticket',
-    },
-    text: {
+    name: {
       type: String,
-      required: [true, 'Please add some text'],
+      required: [true, 'Please add a name'],
     },
-    isStaff: {
+    email: {
+      type: String,
+      required: [true, 'Please add an email'],
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, 'Please add a password'],
+    },
+    isAdmin: {
       type: Boolean,
+      required: true,
       default: false,
-    },
-    staffId: {
-      type: String,
     },
   },
   {
@@ -29,4 +26,4 @@ const noteSchema = mongoose.Schema(
   }
 )
 
-module.exports = mongoose.model('Note', noteSchema)
+module.exports = mongoose.model('User', userSchema)

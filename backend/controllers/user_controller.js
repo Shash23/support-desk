@@ -2,21 +2,22 @@ const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-const User = require('../models/userModel')
+const User = require('../models/user_model')
 
 // @desc    Register a new user
 // @route   /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
+    
   const { name, email, password } = req.body
 
-  // Validation
+  // validation
   if (!name || !email || !password) {
     res.status(400)
     throw new Error('Please include all fields')
   }
 
-  // Find if user already exists
+  // if the user exists
   const userExists = await User.findOne({ email })
 
   if (userExists) {
@@ -25,8 +26,8 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Hash password
-  const salt = await bcrypt.genSalt(10)
-  const hashedPassword = await bcrypt.hash(password, salt)
+  const salt = await bcrypt.genSalt(10) // makes the password more secure
+  const hashedPassword = await bcrypt.hash(password, salt) // hashes the password using the salt
 
   // Create user
   const user = await User.create({
@@ -56,7 +57,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email })
 
-  // Check user and passwords match
+  // check if the user and password matches
   if (user && (await bcrypt.compare(password, user.password))) {
     res.status(200).json({
       _id: user._id,
